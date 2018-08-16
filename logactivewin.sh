@@ -30,6 +30,9 @@ do
 		if [[ $screensaverstate =~ .*inactive.* ]]; then islocked=false; fi
 	elif [[ $XDG_SESSION_DESKTOP == 'KDE' ]]; then
 		islocked=$(qdbus org.kde.screensaver /ScreenSaver org.freedesktop.ScreenSaver.GetActive)
+	elif [[ $GDMSESSION == 'i3' ]]; then
+		  screensavestate=$(pgrep i3lock)
+      if [ -z $screensavestate]; then islocked=false; fi
 	else
 		# If we can't find the screensaver, assume it's missing.
 		islocked=false
