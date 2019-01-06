@@ -12,7 +12,7 @@ IP = ""
 if len(sys.argv) > 1:
   PORT = int(sys.argv[1])
 else:
-  PORT = 8124
+  PORT = 8123
 
 # serve render/ folder, not current folder
 rootdir = os.getcwd()

@@ -31,8 +31,14 @@ do
 	elif [[ $XDG_SESSION_DESKTOP == 'KDE' ]]; then
 		islocked=$(qdbus org.kde.screensaver /ScreenSaver org.freedesktop.ScreenSaver.GetActive)
 	elif [[ $GDMSESSION == 'i3' ]]; then
-		  screensavestate=$(pgrep i3lock)
-      if [ -z $screensavestate]; then islocked=false; fi
+		  ithreelockstate=`pgrep i3lock`
+      if [ -z "$ithreelockstate" ]
+      then
+        islocked=false
+      else
+        islocked=true
+      fi
+      unset ithreelockstate
 	else
 		# If we can't find the screensaver, assume it's missing.
 		islocked=false
@@ -40,7 +46,7 @@ do
 
 	if [ $islocked = true ]; then
 		curtitle="__LOCKEDSCREEN"
-	else 
+	else
 		id=$(xdotool getactivewindow)
 		curtitle=$(wmctrl -lpG | while read -a a; do w=${a[0]}; if (($((16#${w:2}))==id)) ; then echo "${a[@]:8}"; break; fi; done)
 	fi
